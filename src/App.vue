@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div id="app">
     <div  :style="{ backgroundImage: `url(${backgroundImageUrl})` }" class="background-image">
       <h1>赛博空间250实验室第XX届糖人杯---英雄联盟赛道</h1>
@@ -16,14 +16,10 @@
     </div>
   </div>
 
-</template> -->
-
-
-<template>
-  <div id="app">
-    <h1>Hello World</h1>
-  </div>
 </template>
+
+
+
 
 <script lang="ts">
 
