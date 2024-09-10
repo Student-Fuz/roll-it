@@ -19,16 +19,9 @@
 </template>
 
 <script lang="ts">
-
 import { defineComponent, ref, watch } from 'vue';
 import BinaryTreeNode from './BinaryTreeNode.vue';
-
-// 定义树节点类型
-export interface TreeNode {
-  value: string;
-  left: TreeNode | null;
-  right: TreeNode | null;
-}
+import type { TreeNode } from './types/TreeNode'; // 使用 type 导入
 
 export default defineComponent({
   name: 'App',
@@ -36,17 +29,11 @@ export default defineComponent({
     BinaryTreeNode
   },
   setup() {
-    // 背景图片
     const backgroundImageUrl = ref<string>('background.png');
-
-    // 默认树的高度
     const defaultHeight = 3;
     const treeHeight = ref<number>(defaultHeight);
-
-    // 根节点
     const rootNode = ref<TreeNode | null>(generateBinaryTree(treeHeight.value));
 
-    // 生成树的函数
     function generateBinaryTree(h: number, level: number = 0): TreeNode | null {
       if (level > h) return null;
       return {
@@ -56,22 +43,22 @@ export default defineComponent({
       };
     }
 
-    // 更新树的函数
     function updateTree() {
       rootNode.value = generateBinaryTree(treeHeight.value);
     }
 
-    // 监听树的高度变化
     watch(treeHeight, updateTree);
 
     return {
       backgroundImageUrl,
       treeHeight,
       rootNode,
-      updateTree  // Make sure updateTree is returned
+      updateTree
     };
   }
 });
+
+
 </script>
 
 <style scoped>

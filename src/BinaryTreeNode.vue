@@ -37,17 +37,10 @@
   </div>
 </template>
 
-
-
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import type { PropType } from 'vue';
-
-interface TreeNode {
-  value: string;
-  left: TreeNode | null;
-  right: TreeNode | null;
-}
+import type { TreeNode } from './types/TreeNode'; // 使用 type 导入
 
 export default defineComponent({
   name: 'BinaryTreeNode',
