@@ -18,18 +18,13 @@
 
 </template>
 
-
-
-
 <script lang="ts">
 
 import { defineComponent, ref, watch } from 'vue';
 import BinaryTreeNode from './BinaryTreeNode.vue';
 
-
-
 // 定义树节点类型
-interface TreeNode {
+export interface TreeNode {
   value: string;
   left: TreeNode | null;
   right: TreeNode | null;
