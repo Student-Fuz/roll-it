@@ -1,6 +1,8 @@
 <template>
-  <div id="app">
-    <div  :style="{ backgroundImage: `url(${backgroundImageUrl})` }" class="background-image">
+  <div class="app">
+    <img :src="backgroundImageUrl">
+    <div class="absolute_temp_container">
+      <div class="inner_items">
       <h1>赛博空间250实验室第XX届糖人杯---英雄联盟赛道</h1>
       <div class="controls">
         <label for="height">选择比赛轮次：</label>
@@ -13,9 +15,9 @@
         />
       </div>
       <BinaryTreeNode :node="rootNode" />
+      </div>
     </div>
   </div>
-
 </template>
 
 <script lang="ts">
@@ -63,7 +65,16 @@ export default defineComponent({
 
 <style scoped>
 .app {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  height: 90%;
+  width: 90%;
+  left: 5%;
+  top: 5%;
+  box-shadow: 'light';
+  align-items: center;
 }
 
 .controls {
@@ -78,4 +89,27 @@ input {
 h1 {
   margin-bottom: 20px;
 }
+
+
+.inner_items{
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  flex-direction: column;
+  margin-top: 2.5%;
+  height: 70%;
+  align-items: center;
+}
+
+.absolute_temp_container{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  position: absolute;
+  margin-top: 12.5%;
+  height: 70%;
+  align-items: center;
+}
+
+
 </style>
