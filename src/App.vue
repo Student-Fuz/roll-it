@@ -63,10 +63,8 @@ export default defineComponent({
     const loading = ref(true);
 
     // 抽签相关
-    // 定义数组大小
-    let arraySize = 2**defaultHeight;
     // 使用 Array.from 方法生成索引数组
-    let indexArray = ref(Array.from({ length: arraySize }, (_, index) => index));
+    let indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
 
     // 使用 fetch 加载 JSON 文件
     const fetchPlayers = async () => {
@@ -116,7 +114,7 @@ export default defineComponent({
     function handleClick(event: MouseEvent) {
       // 处理 MouseEvent 事件
       changeLeafNodes();
-      indexArray = ref(Array.from({ length: arraySize }, (_, index) => index));
+      indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
     }
     // 遍历二叉树并修改叶子节点
     function changeLeafNodes(node: TreeNode | null = rootNode.value) {
