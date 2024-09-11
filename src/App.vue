@@ -16,10 +16,9 @@
             @change="updateTree"
           />
         </div>
-
-        <!-- 添加按钮，点击时调用 changeLeafNodes 函数 -->
-        <button @click="handleClick">将叶子节点修改为 "OK"</button>
         <BinaryTreeNode :node="rootNode" />
+        <!-- 添加按钮，点击时调用 changeLeafNodes 函数 -->
+        <button @click="handleClick">一键抽签</button>
       </div>
 
       <h2>比赛选手展示</h2>
