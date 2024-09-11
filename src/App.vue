@@ -62,6 +62,12 @@ export default defineComponent({
     const PlayersMap = ref<Map<number, Player>>(new Map()); 
     const loading = ref(true);
 
+    // 抽签相关
+    // 定义数组大小
+    let arraySize = 2**defaultHeight;
+    // 使用 Array.from 方法生成索引数组
+    let indexArray = ref(Array.from({ length: arraySize }, (_, index) => index));
+
     // 使用 fetch 加载 JSON 文件
     const fetchPlayers = async () => {
       try {
@@ -106,20 +112,20 @@ export default defineComponent({
       rootNode.value = generateBinaryTree(treeHeight.value);
     }
 
+    // 一键抽签
     function handleClick(event: MouseEvent) {
       // 处理 MouseEvent 事件
-      console.log('Mouse event:', event);
-
-      //
-
       changeLeafNodes();
+      indexArray = ref(Array.from({ length: arraySize }, (_, index) => index));
     }
     // 遍历二叉树并修改叶子节点
     function changeLeafNodes(node: TreeNode | null = rootNode.value) {
       if (!node) return;
       if (!node.left && !node.right) {
         // 这是一个叶子节点
-        const item = getPlayerById(3);
+        let rand = getRandomInt(0, indexArray.value.length-1)
+        let item = getPlayerById(indexArray.value[rand]+1);
+        indexArray.value.splice(rand,1);
         node.avatarUrl = item?.avatarUrl as string;
         node.nickname = item?.nickname as string;
       } else {
@@ -136,6 +142,11 @@ export default defineComponent({
 
     function getPlayerById(id: number) {
       return PlayersMap.value.get(id);
+    }
+
+    function getRandomInt(min: number, max: number) {
+      // 生成一个范围为 [min, max] 的随机整数
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     watch(treeHeight, updateTree);
@@ -194,11 +205,12 @@ h2 {
 
 .inner_items{
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   position: relative;
   flex-direction: column;
   margin-top: 2.5%;
   height: 60%;
+  justify-content: center; /* Center items horizontally */
   align-items: center;
 }
 
