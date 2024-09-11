@@ -2,8 +2,20 @@
   <div class="node">
     <div class="node-content" v-if="node">
       <div class="box">
-        <img :src="node.avatarUrl" alt="Avatar" class="avatar">
-        <span class="nickname">{{ node.nickname }}</span>
+        <input
+          v-if="isEditing"
+          v-model="node.nickname"
+          @blur="endEditing"
+          autofocus
+        />
+        <span v-else @click="startEditing">
+          <template v-if="isImage">
+            <img :src="node.nickname" alt="Node Image" class="node-image" />
+          </template>
+          <template v-else>
+            {{ node.nickname }}
+          </template>
+        </span>
       </div>
       <svg
         class="line"
@@ -64,9 +76,26 @@ export default defineComponent({
       return path;
     });
 
+    const isImage = computed(() => {
+      if (!props.node) return false; // Return false if node is null
+      const urlPattern = /\.(jpg|jpeg|png|gif)$/i;
+      return urlPattern.test(props.node.nickname);
+    });
+
+    function startEditing() {
+      isEditing.nickname = true;
+    }
+
+    function endEditing() {
+      isEditing.nickname = false;
+    }
+
     return {
       isEditing,
       linePath,
+      isImage,
+      startEditing,
+      endEditing,
       lineWidth,
       lineHeight
     };
@@ -99,8 +128,6 @@ export default defineComponent({
 } */
 
 .box {
-display: flex;
-align-items: center; /* Vertically center items */
 border: 1px solid #ddd;
 border-radius: 8px;
 padding: 16px;
@@ -141,18 +168,6 @@ input:focus {
 .child {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.avatar {
-  width: 50px; /* Set the width of the avatar */
-  height: 50px; /* Set the height of the avatar */
-  border-radius: 50%; /* Make the avatar circular */
-}
-
-.nickname {
-  font-size: 1.2em; /* Set the font size for the nickname */
-  color: #333; /* Set the text color */
   align-items: center;
 }
 </style>

@@ -56,6 +56,7 @@ export default defineComponent({
     const treeHeight = ref<number>(defaultHeight);
     const rootNode = ref<TreeNode | null>(generateBinaryTree(treeHeight.value));
     const players = ref<Player[]>([]);  
+    const PlayersMap = ref<Map<number, Player>>(new Map()); 
     const loading = ref(true);
 
     // 使用 fetch 加载 JSON 文件
@@ -80,7 +81,8 @@ export default defineComponent({
     function generateBinaryTree(h: number, level: number = 0): TreeNode | null {
       if (level > h) return null;
       return {
-        value: `Node at level ${level}`,
+        avatarUrl: `background.png`,
+        nickname: `player at level ${level}`,
         left: generateBinaryTree(h, level + 1),
         right: generateBinaryTree(h, level + 1),
       };
@@ -95,14 +97,18 @@ export default defineComponent({
       // 处理 MouseEvent 事件
       console.log('Mouse event:', event);
 
+      //
+
       changeLeafNodes();
     }
-    // 遍历二叉树并修改叶子节点的值为 "OK"
+    // 遍历二叉树并修改叶子节点
     function changeLeafNodes(node: TreeNode | null = rootNode.value) {
       if (!node) return;
       if (!node.left && !node.right) {
         // 这是一个叶子节点
-        node.value = "OK";
+        const item = getPlayerById(3);
+        node.avatarUrl = item?.avatarUrl as string;
+        node.nickname = item?.nickname as string;
       } else {
         // 递归遍历左右子树
         if (node.left) changeLeafNodes(node.left);
@@ -110,7 +116,21 @@ export default defineComponent({
       }
     }
 
+    // 更新 PlayersMap 的函数
+    function updatePlayersMap() {
+      PlayersMap.value = new Map(players.value.map(item => [item.id, item]));
+    }
+
+    function getPlayerById(id: number) {
+      return PlayersMap.value.get(id);
+    }
+
     watch(treeHeight, updateTree);
+
+    // 观察 players 的变化并更新 PlayersMap
+    watch(players, (newPlayers) => {
+      updatePlayersMap();
+    }, { deep: true });
 
     return {
       backgroundImageUrl,
