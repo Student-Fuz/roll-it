@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="node">
     <div class="node-content" v-if="node">
       <div class="box">
@@ -105,7 +105,7 @@ export default defineComponent({
 
 <style scoped>
 .node {
-  display: flex;
+  display: block;
   flex-direction: column;
   align-items: center;
   position: relative;
