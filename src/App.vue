@@ -2,39 +2,81 @@
   <div class="app">
     <img :src="backgroundImageUrl">
     <div class="absolute_temp_container">
+      <!-- **********************定义组件开始*********************** -->
       <div class="inner_items">
-      <h1>赛博空间250实验室第XX届糖人杯---英雄联盟赛道</h1>
-      <div class="controls">
-        <label for="height">选择比赛轮次：</label>
-        <input
-          id="height"
-          type="number"
-          min="1"
-          v-model.number="treeHeight"
-          @change="updateTree"
-        />
+        <h1>赛博空间250实验室第XX届糖人杯---英雄联盟赛道</h1>
+        <div class="controls">
+          <label for="height">选择比赛轮次：</label>
+          <input
+            id="height"
+            type="number"
+            min="1"
+            max="4"
+            v-model.number="treeHeight"
+            @change="updateTree"
+          />
+        </div>
+
+        <!-- 添加按钮，点击时调用 changeLeafNodes 函数 -->
+        <button @click="handleClick">将叶子节点修改为 "OK"</button>
+        <BinaryTreeNode :node="rootNode" />
       </div>
-      <BinaryTreeNode :node="rootNode" />
+
+      <h2>比赛选手展示</h2>
+      <div class="players-grid">
+        <PlayerCard
+          v-for="player in players"
+          :key="player.id"
+          :nickname="player.nickname"
+          :avatarUrl="player.avatarUrl"
+          :slogan="player.slogan"
+        />
       </div>
     </div>
   </div>
 </template>
 
+
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref, watch, onMounted } from 'vue';
 import BinaryTreeNode from './BinaryTreeNode.vue';
-import type { TreeNode } from './types/TreeNode'; // 使用 type 导入
+import type { TreeNode } from './types/TreeNode'; 
+import type { Player } from './types/Player'; 
+import PlayerCard from './components/PlayerCard.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    BinaryTreeNode
+    BinaryTreeNode, 
+    PlayerCard
   },
   setup() {
     const backgroundImageUrl = ref<string>('background.png');
+    const playersListUrl = ref<string>('players.json');
     const defaultHeight = 3;
     const treeHeight = ref<number>(defaultHeight);
     const rootNode = ref<TreeNode | null>(generateBinaryTree(treeHeight.value));
+    const players = ref<Player[]>([]);  
+    const loading = ref(true);
+
+    // 使用 fetch 加载 JSON 文件
+    const fetchPlayers = async () => {
+      try {
+        const response = await fetch(playersListUrl.value);
+        if (!response.ok) {
+          throw new Error('Failed to fetch players data');
+        }
+        players.value = await response.json();
+      } catch (error) {
+        console.error('Error loading players:', error);
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    onMounted(() => {
+      fetchPlayers();
+    });
 
     function generateBinaryTree(h: number, level: number = 0): TreeNode | null {
       if (level > h) return null;
@@ -45,8 +87,28 @@ export default defineComponent({
       };
     }
 
+    // 递归地生成完全二叉树
     function updateTree() {
       rootNode.value = generateBinaryTree(treeHeight.value);
+    }
+
+    function handleClick(event: MouseEvent) {
+      // 处理 MouseEvent 事件
+      console.log('Mouse event:', event);
+
+      changeLeafNodes();
+    }
+    // 遍历二叉树并修改叶子节点的值为 "OK"
+    function changeLeafNodes(node: TreeNode | null = rootNode.value) {
+      if (!node) return;
+      if (!node.left && !node.right) {
+        // 这是一个叶子节点
+        node.value = "OK";
+      } else {
+        // 递归遍历左右子树
+        if (node.left) changeLeafNodes(node.left);
+        if (node.right) changeLeafNodes(node.right);
+      }
     }
 
     watch(treeHeight, updateTree);
@@ -55,11 +117,14 @@ export default defineComponent({
       backgroundImageUrl,
       treeHeight,
       rootNode,
-      updateTree
+      updateTree,
+      players,
+      loading,
+      handleClick,
+      changeLeafNodes,
     };
   }
 });
-
 
 </script>
 
@@ -90,6 +155,10 @@ h1 {
   margin-bottom: 20px;
 }
 
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
 .inner_items{
   display: flex;
@@ -97,19 +166,31 @@ h1 {
   position: relative;
   flex-direction: column;
   margin-top: 2.5%;
-  height: 70%;
+  height: 60%;
   align-items: center;
 }
 
 .absolute_temp_container{
-  display: flex;
+  display: block;
   flex-wrap: wrap;
   flex-direction: column;
   position: absolute;
   margin-top: 12.5%;
-  height: 70%;
+  height: 90%;
   align-items: center;
 }
 
+.players-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.5em;
+  color: #666;
+}
 
 </style>
