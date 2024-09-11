@@ -12,6 +12,7 @@
             type="number"
             min="1"
             max="4"
+
             v-model.number="treeHeight"
             @change="updateTree"
           />
@@ -52,9 +53,11 @@ export default defineComponent({
   setup() {
     const backgroundImageUrl = ref<string>('background.png');
     const playersListUrl = ref<string>('players.json');
+    const defaultPlayerUrl = ref<string>('avatars/default.png');
+    const undeterminedPlayerUrl = ref<string>('avatars/undetermined.png');
     const defaultHeight = 3;
     const treeHeight = ref<number>(defaultHeight);
-    const rootNode = ref<TreeNode | null>(generateBinaryTree(treeHeight.value));
+    const rootNode = ref<TreeNode | null>(generateBinaryTree(treeHeight.value, 0, null));
     const players = ref<Player[]>([]);  
     const PlayersMap = ref<Map<number, Player>>(new Map()); 
     const loading = ref(true);
@@ -78,14 +81,24 @@ export default defineComponent({
       fetchPlayers();
     });
 
-    function generateBinaryTree(h: number, level: number = 0): TreeNode | null {
+    function generateBinaryTree(h: number, level: number = 0, fatherNode: TreeNode | null = rootNode.value): TreeNode | null {
       if (level > h) return null;
-      return {
-        avatarUrl: `background.png`,
-        nickname: `player at level ${level}`,
-        left: generateBinaryTree(h, level + 1),
-        right: generateBinaryTree(h, level + 1),
+      const currNode: TreeNode = {
+        avatarUrl: undeterminedPlayerUrl.value,
+        nickname: "待定",
+        father: fatherNode,
+        left: null,
+        right: null,
       };
+      currNode.left = generateBinaryTree(h, level + 1, currNode);
+      currNode.right = generateBinaryTree(h, level + 1, currNode);
+      return currNode;
+      // return {
+      //   avatarUrl: `background.png`,
+      //   nickname: `player at level ${level}`,
+      //   left: generateBinaryTree(h, level + 1),
+      //   right: generateBinaryTree(h, level + 1, ),
+      // };
     }
 
     // 递归地生成完全二叉树

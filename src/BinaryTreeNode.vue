@@ -1,7 +1,7 @@
  <template>
   <div class="node">
     <div class="node-content" v-if="node">
-      <div class="box">
+      <div class="box" @click="handleLeftClick" @contextmenu="handleRightClick">
         <img :src="node.avatarUrl" alt="Avatar" class="avatar">
         <span class="nickname">{{ node.nickname }}</span>
       </div>
@@ -29,6 +29,8 @@
 import { defineComponent, ref, computed } from 'vue';
 import type { PropType } from 'vue';
 import type { TreeNode } from './types/TreeNode'; // 使用 type 导入
+
+const undeterminedPlayerUrl = ref<string>('avatars/undetermined.png');
 
 export default defineComponent({
   name: 'BinaryTreeNode',
@@ -64,11 +66,37 @@ export default defineComponent({
       return path;
     });
 
+    // Define the event handler functions
+    const handleLeftClick = (event: MouseEvent) => {
+      // Check if the left mouse button was clicked
+      if (event.button === 0) {
+        // 晋级操作
+        if (props.node && props.node.father) {
+          props.node.father.avatarUrl = props.node.avatarUrl;
+          props.node.father.nickname = props.node.nickname;
+        }
+      }
+    };
+
+    const handleRightClick = (event: MouseEvent) => {
+      // Check if the right mouse button was clicked
+      if (event.button === 2) {
+        event.preventDefault(); // Prevent the default context menu from showing
+        // 取消
+        if (props.node) {
+          props.node.avatarUrl = undeterminedPlayerUrl.value;
+          props.node.nickname = "待定";
+        }
+      }
+    };
+
     return {
       isEditing,
       linePath,
       lineWidth,
-      lineHeight
+      lineHeight,
+      handleLeftClick,
+      handleRightClick
     };
   }
 });
