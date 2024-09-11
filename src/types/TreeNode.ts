@@ -2,7 +2,7 @@
 export interface TreeNode {
     avatarUrl: string;
     nickname: string;
-    father: TreeNode | null;
+    // father: TreeNode | null;
     left: TreeNode | null;
     right: TreeNode | null;
   }
