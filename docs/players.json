@@ -1,0 +1,51 @@
+[
+  {
+        "id": 1,
+      "nickname": "Faker",
+      "avatarUrl": "avatars/1_player.png",
+      "slogan": "赢了娶恩静"
+  },
+  {
+    "id": 2,
+      "nickname": "Badwoman",
+      "avatarUrl": "avatars/2_player.png",
+      "slogan": "龙哥顶住了压力，成为了s6第一个白银！惹啊！！！"
+  },
+  {
+    "id": 3,
+      "nickname": "呜呜贼i",
+      "avatarUrl": "avatars/3_player.png",
+      "slogan": "唐完了就宋"
+  },
+  {
+    "id": 4,
+      "nickname": "清水河第一纯情",
+      "avatarUrl": "avatars/4_player.png",
+      "slogan": "输了从清水河游回去！"
+  },
+  {
+    "id": 5,
+      "nickname": "YOLO",
+      "avatarUrl": "avatars/5_player.png",
+      "slogan": "挥手不是抱歉，是兄弟你还得练"
+  },
+  {
+    "id": 6,
+      "nickname": "丩攵彳走",
+      "avatarUrl": "avatars/6_player.png",
+      "slogan": "250最高的山 最长的河"
+  },
+  {
+    "id": 7,
+      "nickname": "我要喝可乐",
+      "avatarUrl": "avatars/7_player.png",
+      "slogan": "守护最好的鸡哥"
+  },
+  {
+    "id": 8,
+      "nickname": "轮空",
+      "avatarUrl": "avatars/8_player.png",
+      "slogan": "轮空"
+  }
+]
+  
