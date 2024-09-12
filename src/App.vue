@@ -2,6 +2,18 @@
   <div class="app">
     <img :src="backgroundImageUrl">
     <div class="absolute_temp_container">
+      <!-- 弹幕容器 -->
+      <div class="barrage-container">
+        <div
+          v-for="(barrage, index) in barrages"
+          :key="index"
+          class="barrage-message"
+          :style="{ top: getRandomTop(index) + 'px', animationDuration: getRandomSpeed() + 's' }"
+        >
+          {{ barrage }}
+        </div>
+      </div>
+
       <!-- **********************定义组件开始*********************** -->
       <div class="inner_items">
         <h1>赛博空间250实验室第XX届糖人杯---英雄联盟赛道</h1>
@@ -20,7 +32,6 @@
         <!-- 添加按钮，点击时调用 GeneralDraw 函数 -->
         <button @click="handleGeneralDraw">一键抽签</button>
       </div>
-
       <h2>比赛选手展示</h2>
       <div class="players-grid">
         <PlayerCard
@@ -60,6 +71,7 @@ export default defineComponent({
     const players = ref<Player[]>([]);  
     const PlayersMap = ref<Map<number, Player>>(new Map()); 
     const loading = ref(true);
+    const barrages = ref<string[]>([]);
 
     // 抽签相关
     // 索引数组indexArray 存放0.....index
@@ -83,6 +95,11 @@ export default defineComponent({
 
     onMounted(() => {
       fetchPlayers();
+      // 模拟弹幕数据
+      addBarrage('弹幕消息 ' + new Date().toLocaleTimeString());
+      // setInterval(() => {
+      //   addBarrage('弹幕消息 ' + new Date().toLocaleTimeString());
+      // }, 1000);
     });
 
     // 递归地生成完全二叉树
@@ -120,7 +137,6 @@ export default defineComponent({
       }
       return leafNodes;
     }
-
 
     // 遍历二叉树并修改叶子节点
     function GeneralDraw(node: TreeNode | null = rootNode.value) {
@@ -184,6 +200,26 @@ export default defineComponent({
       updatePlayersMap();
     }, { deep: true });
 
+    // ******************弹幕相关（开始）*******************
+    const addBarrage = (message: string) => {
+      barrages.value.push(message);
+      // 保持弹幕数量，不要过多
+      // if (barrages.value.length > 100000) {
+      //   barrages.value.shift();
+      // }
+    };
+
+    const getRandomTop = (index: number) => {
+      // 弹幕随机显示的高度，防止重叠
+      return Math.floor(Math.random() * 100);
+    };
+
+    const getRandomSpeed = () => {
+      // 随机速度，增加弹幕滚动的多样性
+      return Math.random() * 5 + 2;
+    };
+    // ******************弹幕相关（结束）*******************
+
     return {
       backgroundImageUrl,
       treeHeight,
@@ -194,6 +230,10 @@ export default defineComponent({
       handleGeneralDraw,
       handleDraw,
       GeneralDraw,
+      addBarrage,
+      getRandomTop,
+      getRandomSpeed,
+      barrages
     };
   }
 });
@@ -225,11 +265,13 @@ input {
 
 h1 {
   margin-bottom: 20px;
+  z-index: 1; 
 }
 
 h2 {
   text-align: center;
   margin-bottom: 20px;
+  z-index: 1; 
 }
 
 .inner_items{
@@ -241,6 +283,7 @@ h2 {
   height: 60%;
   justify-content: center; /* Center items horizontally */
   align-items: center;
+  z-index: 1; /* 保证其他元素能在弹幕后方显示 */
 }
 
 .absolute_temp_container{
@@ -251,6 +294,7 @@ h2 {
   margin-top: 12.5%;
   height: 90%;
   align-items: center;
+  z-index: 1; /* 保证其他元素能在弹幕后方显示 */
 }
 
 .players-grid {
@@ -264,6 +308,38 @@ h2 {
   text-align: center;
   font-size: 1.5em;
   color: #666;
+}
+
+/* 弹幕 */
+.barrage-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px; /* 限定弹幕的活动范围 */
+  pointer-events: none; /* 避免弹幕阻挡点击 */
+  overflow: hidden;
+  z-index: 1000; /* 使弹幕浮空在所有元素上方 */
+}
+
+.barrage-message {
+  position: absolute;
+  left: 100%;
+  white-space: nowrap; /* 保证弹幕不换行 */
+  color: rgb(31, 30, 30);
+  font-size: 16px;
+  animation: scroll-left linear infinite;
+  /* 增加动画持续时间，可以让滚动看起来更平滑 */
+  animation-duration: 100s; /* 根据需求调整时间 */
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100vw);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 </style>
