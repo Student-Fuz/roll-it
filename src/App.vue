@@ -17,8 +17,8 @@
           />
         </div>
         <BinaryTreeNode :node="rootNode" />
-        <!-- 添加按钮，点击时调用 changeLeafNodes 函数 -->
-        <button @click="handleClick">一键抽签</button>
+        <!-- 添加按钮，点击时调用 GeneralDraw 函数 -->
+        <button @click="handleGeneralDraw">一键抽签</button>
       </div>
 
       <h2>比赛选手展示</h2>
@@ -123,7 +123,7 @@ export default defineComponent({
 
 
     // 遍历二叉树并修改叶子节点
-    function changeLeafNodes(node: TreeNode | null = rootNode.value) {
+    function GeneralDraw(node: TreeNode | null = rootNode.value) {
       if (!node) return;
       if (!node.left && !node.right) {
         // 这是一个叶子节点
@@ -134,8 +134,8 @@ export default defineComponent({
         node.nickname = item?.nickname as string;
       } else {
         // 递归遍历左右子树
-        if (node.left) changeLeafNodes(node.left);
-        if (node.right) changeLeafNodes(node.right);
+        if (node.left) GeneralDraw(node.left);
+        if (node.right) GeneralDraw(node.right);
       }
     }
 
@@ -149,9 +149,10 @@ export default defineComponent({
     }
 
     // 一键抽签
-    function handleClick(event: MouseEvent) {
+    function handleGeneralDraw(event: MouseEvent) {
       // 处理 MouseEvent 事件
-      changeLeafNodes();
+      indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
+      GeneralDraw();
       indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
     }
 
@@ -190,9 +191,9 @@ export default defineComponent({
       updateTree,
       players,
       loading,
-      handleClick,
+      handleGeneralDraw,
       handleDraw,
-      changeLeafNodes,
+      GeneralDraw,
     };
   }
 });
