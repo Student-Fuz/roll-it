@@ -3,12 +3,14 @@
       <img :src="avatarUrl" alt="avatar" class="player-avatar" />
       <h3 class="player-nickname">{{ nickname }}</h3>
       <p class="player-slogan">{{ slogan }}</p>
+      <button @click="onDraw">抽签</button>
     </div>
 </template>
   
 <script lang="ts">
 import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
+// import type { Player } from '../types/Player'; 
 
 export default defineComponent({
 name: 'PlayerCard',
@@ -24,8 +26,15 @@ props: {
     slogan: {
     type: String as PropType<string>,
     required: true
-    }
+    },
+    onDraw: {
+      type: Function as PropType<() => void>, // 明确定义为无返回值的函数类型
+      required: true
+    }   
 }
+
+
+
 });
 </script>
 

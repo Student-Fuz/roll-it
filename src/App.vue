@@ -12,7 +12,6 @@
             type="number"
             min="1"
             max="4"
-
             v-model.number="treeHeight"
             @change="updateTree"
           />
@@ -30,12 +29,12 @@
           :nickname="player.nickname"
           :avatarUrl="player.avatarUrl"
           :slogan="player.slogan"
+          :onDraw="() => handleDraw(player)"
         />
       </div>
     </div>
   </div>
 </template>
-
 
 <script lang="ts">
 import { defineComponent, ref, watch, onMounted } from 'vue';
@@ -63,8 +62,9 @@ export default defineComponent({
     const loading = ref(true);
 
     // 抽签相关
-    // 使用 Array.from 方法生成索引数组
+    // 索引数组indexArray 存放0.....index
     let indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
+    const seatArray = ref<TreeNode[]>(getLeafNodes(rootNode.value));
 
     // 使用 fetch 加载 JSON 文件
     const fetchPlayers = async () => {
@@ -85,6 +85,7 @@ export default defineComponent({
       fetchPlayers();
     });
 
+    // 递归地生成完全二叉树
     function generateBinaryTree(h: number, level: number = 0, fatherNode: TreeNode | null = rootNode.value): TreeNode | null {
       if (level > h) return null;
       const currNode: TreeNode = {
@@ -97,31 +98,36 @@ export default defineComponent({
       currNode.left = generateBinaryTree(h, level + 1, currNode);
       currNode.right = generateBinaryTree(h, level + 1, currNode);
       return currNode;
-      // return {
-      //   avatarUrl: `background.png`,
-      //   nickname: `player at level ${level}`,
-      //   left: generateBinaryTree(h, level + 1),
-      //   right: generateBinaryTree(h, level + 1, ),
-      // };
     }
 
-    // 递归地生成完全二叉树
-    function updateTree() {
-      rootNode.value = generateBinaryTree(treeHeight.value);
+    function getLeafNodes(rootNode: TreeNode | null): TreeNode[] {
+      const leafNodes: TreeNode[] = [];
+      if (!rootNode) return leafNodes;
+      
+      const queue: TreeNode[] = [rootNode];
+      
+      while (queue.length > 0) {
+        const node = queue.shift()!;
+        
+        if (!node.left && !node.right) {
+          // 这是一个叶子节点
+          leafNodes.push(node);
+        } else {
+          // 将子节点加入队列
+          if (node.left) queue.push(node.left);
+          if (node.right) queue.push(node.right);
+        }
+      }
+      return leafNodes;
     }
 
-    // 一键抽签
-    function handleClick(event: MouseEvent) {
-      // 处理 MouseEvent 事件
-      changeLeafNodes();
-      indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
-    }
+
     // 遍历二叉树并修改叶子节点
     function changeLeafNodes(node: TreeNode | null = rootNode.value) {
       if (!node) return;
       if (!node.left && !node.right) {
         // 这是一个叶子节点
-        let rand = getRandomInt(0, indexArray.value.length-1)
+        let rand = getRandomInt(0, indexArray.value.length-1);
         let item = getPlayerById(indexArray.value[rand]+1);
         indexArray.value.splice(rand,1);
         node.avatarUrl = item?.avatarUrl as string;
@@ -133,11 +139,6 @@ export default defineComponent({
       }
     }
 
-    // 更新 PlayersMap 的函数
-    function updatePlayersMap() {
-      PlayersMap.value = new Map(players.value.map(item => [item.id, item]));
-    }
-
     function getPlayerById(id: number) {
       return PlayersMap.value.get(id);
     }
@@ -147,6 +148,34 @@ export default defineComponent({
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+    // 一键抽签
+    function handleClick(event: MouseEvent) {
+      // 处理 MouseEvent 事件
+      changeLeafNodes();
+      indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
+    }
+
+    // 单个抽签
+    const handleDraw = (player : Player) => {
+      let rand = getRandomInt(0, indexArray.value.length-1);
+      seatArray.value[indexArray.value[rand]].avatarUrl = player.avatarUrl;
+      seatArray.value[indexArray.value[rand]].nickname = player.nickname;
+      indexArray.value.splice(rand, 1);
+      console.log(indexArray.value)
+    };
+
+    // 递归地生成完全二叉树
+    function updateTree() {
+      rootNode.value = generateBinaryTree(treeHeight.value, 0, null);
+      seatArray.value = [];
+      seatArray.value = getLeafNodes(rootNode.value);
+      indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
+    }
+
+    // 更新 PlayersMap 的函数
+    function updatePlayersMap() {
+      PlayersMap.value = new Map(players.value.map(item => [item.id, item]));
+    }
     watch(treeHeight, updateTree);
 
     // 观察 players 的变化并更新 PlayersMap
@@ -162,6 +191,7 @@ export default defineComponent({
       players,
       loading,
       handleClick,
+      handleDraw,
       changeLeafNodes,
     };
   }
