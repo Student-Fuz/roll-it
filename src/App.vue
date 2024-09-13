@@ -12,7 +12,7 @@
           animationDuration: getRandomSpeed() + 's',
           color: getRandomColor() }"
         >
-          {{ barrage }}
+          {{ barrage.barrage }}
         </div>
       </div>
 
@@ -54,6 +54,7 @@ import { defineComponent, ref, watch, onMounted } from 'vue';
 import BinaryTreeNode from './BinaryTreeNode.vue';
 import type { TreeNode } from './types/TreeNode'; 
 import type { Player } from './types/Player'; 
+import type { Barrage } from './types/Barrage'; 
 import PlayerCard from './components/PlayerCard.vue';
 
 export default defineComponent({
@@ -65,6 +66,7 @@ export default defineComponent({
   setup() {
     const backgroundImageUrl = ref<string>('background.png');
     const playersListUrl = ref<string>('players.json');
+    const barragesListUrl = ref<string>('barrages.json');
     const defaultPlayerUrl = ref<string>('avatars/default.png');
     const undeterminedPlayerUrl = ref<string>('avatars/undetermined.png');
     const defaultHeight = 3;
@@ -73,14 +75,15 @@ export default defineComponent({
     const players = ref<Player[]>([]);  
     const PlayersMap = ref<Map<number, Player>>(new Map()); 
     const loading = ref(true);
-    const barrages = ref<string[]>([]);
+    const barrages = ref<Barrage[]>([]);
+
 
     // 抽签相关
     // 索引数组indexArray 存放0.....index
     let indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
     const seatArray = ref<TreeNode[]>(getLeafNodes(rootNode.value));
 
-    // 使用 fetch 加载 JSON 文件
+    // 读取选手信息
     const fetchPlayers = async () => {
       try {
         const response = await fetch(playersListUrl.value);
@@ -95,11 +98,28 @@ export default defineComponent({
       }
     };
 
+    // 读取弹幕消息
+    const fetchBarrages = async () => {
+      try {
+        const response = await fetch(barragesListUrl.value);
+        if (!response.ok) {
+          throw new Error('Failed to fetch barrage data');
+        }
+        barrages.value = await response.json();
+      } catch (error) {
+        console.error('Error loading barrages:', error);
+      } finally {
+        loading.value = false;
+      }
+    };
+
     onMounted(() => {
-      fetchPlayers();   
-      setInterval(() => {
-        addBarrage('弹幕消息 ' + new Date().toLocaleTimeString());
-      }, 1000);
+      fetchPlayers();  
+      fetchBarrages();
+      
+      // setInterval(() => {
+      //   addBarrage('弹幕消息 ' + new Date().toLocaleTimeString());
+      // }, 1000);
     });
 
     // 递归地生成完全二叉树
@@ -218,7 +238,7 @@ export default defineComponent({
     }, { deep: true });
 
     // ******************弹幕相关（开始）*******************
-    const addBarrage = (message: string) => {
+    const addBarrage = (message: Barrage) => {
       barrages.value.push(message);
       // 保持弹幕数量，不要过多
       if (barrages.value.length > 100) {
@@ -228,7 +248,7 @@ export default defineComponent({
 
     const getRandomTop = (index: number) => {
       // 弹幕随机显示的高度，防止重叠
-      return Math.floor(Math.random() * 100);
+      return Math.floor(Math.random() * (100));
     };
 
     const getRandomSpeed = () => {
@@ -344,7 +364,7 @@ h2 {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100px; /* 限定弹幕的活动范围 */
+  height: 116px; /* 限定弹幕的活动范围 */
   pointer-events: none; /* 避免弹幕阻挡点击 */
   overflow: hidden;
   z-index: 1000; /* 使弹幕浮空在所有元素上方 */
