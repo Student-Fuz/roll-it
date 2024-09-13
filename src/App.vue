@@ -40,7 +40,7 @@
           :nickname="player.nickname"
           :avatarUrl="player.avatarUrl"
           :slogan="player.slogan"
-          :onDraw="() => handleDraw(player)"
+          :onDraw="() => handleIndividualDraw(player)"
         />
       </div>
     </div>
@@ -117,6 +117,19 @@ export default defineComponent({
       return currNode;
     }
 
+    // 递归遍历清空完全二叉树
+    function clearBinaryTree(node: TreeNode | null = rootNode.value) {
+      if (!node) return;
+      else {
+        // 重置node
+        node.avatarUrl = undeterminedPlayerUrl.value;
+        node.nickname = "待定";
+        // 递归遍历左右子树
+        if (node.left) clearBinaryTree(node.left);
+        if (node.right) clearBinaryTree(node.right);
+      }
+    }
+
     function getLeafNodes(rootNode: TreeNode | null): TreeNode[] {
       const leafNodes: TreeNode[] = [];
       if (!rootNode) return leafNodes;
@@ -138,7 +151,7 @@ export default defineComponent({
       return leafNodes;
     }
 
-    // 遍历二叉树并修改叶子节点
+    // 递归遍历二叉树并修改叶子节点
     function GeneralDraw(node: TreeNode | null = rootNode.value) {
       if (!node) return;
       if (!node.left && !node.right) {
@@ -166,14 +179,18 @@ export default defineComponent({
 
     // 一键抽签
     function handleGeneralDraw(event: MouseEvent) {
-      // 处理 MouseEvent 事件
+      clearBinaryTree();
       indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
       GeneralDraw();
       indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
     }
 
     // 单个抽签
-    const handleDraw = (player : Player) => {
+    const handleIndividualDraw = (player : Player) => {
+      if(indexArray.value.length == 0){
+        clearBinaryTree();
+        indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
+      }
       let rand = getRandomInt(0, indexArray.value.length-1);
       seatArray.value[indexArray.value[rand]].avatarUrl = player.avatarUrl;
       seatArray.value[indexArray.value[rand]].nickname = player.nickname;
@@ -228,7 +245,7 @@ export default defineComponent({
       players,
       loading,
       handleGeneralDraw,
-      handleDraw,
+      handleIndividualDraw,
       GeneralDraw,
       addBarrage,
       getRandomTop,
