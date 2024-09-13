@@ -8,7 +8,9 @@
           v-for="(barrage, index) in barrages"
           :key="index"
           class="barrage-message"
-          :style="{ top: getRandomTop(index) + 'px', animationDuration: getRandomSpeed() + 's' }"
+          :style="{ top: getRandomTop(index) + 'px', 
+          animationDuration: getRandomSpeed() + 's',
+          color: getRandomColor() }"
         >
           {{ barrage }}
         </div>
@@ -94,12 +96,10 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      fetchPlayers();
-      // 模拟弹幕数据
-      addBarrage('弹幕消息 ' + new Date().toLocaleTimeString());
-      // setInterval(() => {
-      //   addBarrage('弹幕消息 ' + new Date().toLocaleTimeString());
-      // }, 1000);
+      fetchPlayers();   
+      setInterval(() => {
+        addBarrage('弹幕消息 ' + new Date().toLocaleTimeString());
+      }, 1000);
     });
 
     // 递归地生成完全二叉树
@@ -221,9 +221,9 @@ export default defineComponent({
     const addBarrage = (message: string) => {
       barrages.value.push(message);
       // 保持弹幕数量，不要过多
-      // if (barrages.value.length > 100000) {
-      //   barrages.value.shift();
-      // }
+      if (barrages.value.length > 100) {
+        barrages.value.shift();
+      }
     };
 
     const getRandomTop = (index: number) => {
@@ -233,7 +233,17 @@ export default defineComponent({
 
     const getRandomSpeed = () => {
       // 随机速度，增加弹幕滚动的多样性
-      return Math.random() * 5 + 2;
+      return Math.random() * 5 + 5;
+    };
+
+    // 生成随机颜色
+    const getRandomColor = () => {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
     };
     // ******************弹幕相关（结束）*******************
 
@@ -250,7 +260,8 @@ export default defineComponent({
       addBarrage,
       getRandomTop,
       getRandomSpeed,
-      barrages
+      barrages,
+      getRandomColor
     };
   }
 });
@@ -352,10 +363,10 @@ h2 {
 
 @keyframes scroll-left {
   0% {
-    transform: translateX(100vw);
+    transform: translateX(100% + 100vw);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-100vw);
   }
 }
 
