@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch, onMounted } from 'vue';
-import BinaryTreeNode from './BinaryTreeNode.vue';
+import BinaryTreeNode from './components/BinaryTreeNode.vue';
 import type { TreeNode } from './types/TreeNode'; 
 import type { Player } from './types/Player'; 
 import type { Barrage } from './types/Barrage'; 
