@@ -153,7 +153,7 @@ border: 1px solid #ddd;
 border-radius: 8px;
 padding: 16px;
 text-align: center;
-width: 200px;
+width: 150px;
 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -199,7 +199,7 @@ input:focus {
 }
 
 .nickname {
-  font-size: 1.2em; /* Set the font size for the nickname */
+  font-size: 1.0em; /* Set the font size for the nickname */
   color: #333; /* Set the text color */
   align-items: center;
 }
