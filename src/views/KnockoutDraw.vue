@@ -37,7 +37,7 @@
         <AddPlayerModal
           :show="showModal"
           @close="showModal = false"
-          @add-player="handleAddingPlayer_1"
+          @add-player="handleAddingPlayer"
         />
         <div class="players-grid">
           <PlayerCard
@@ -258,12 +258,14 @@ export default defineComponent({
     }, { deep: true });
 
     // 添加选手
-    const handleAddingPlayer = () =>{
-      showModal.value = true;     
-    }
-
-    const handleAddingPlayer_1 = (newPlayer: { nickname: string; slogan: string; avatarUrl: string }) => {
-      players.value.push(newPlayer);
+    const handleAddingPlayer = (newPlayer: { nickname: string; slogan: string; avatarUrl: string }) => {
+      let player = {
+        id : 1,
+        nickname : newPlayer.nickname,
+        slogan : newPlayer.slogan,
+        avatarUrl : newPlayer.avatarUrl,
+      }
+      players.value.push(player);
       showModal.value = false;
     };
 
@@ -317,8 +319,7 @@ export default defineComponent({
       getRandomTop,
       getRandomSpeed,
       getRandomColor, 
-      handleAddingPlayer,
-      handleAddingPlayer_1
+      handleAddingPlayer
     };
   }
 });
