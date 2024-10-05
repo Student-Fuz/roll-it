@@ -10,7 +10,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
-// import type { Player } from '../types/Player'; 
 
 export default defineComponent({
 name: 'PlayerCard',

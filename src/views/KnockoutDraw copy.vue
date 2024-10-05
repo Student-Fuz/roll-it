@@ -51,14 +51,14 @@
   
   <script lang="ts">
   import { defineComponent, ref, watch, onMounted } from 'vue';
-  import BinaryTreeNode from './components/BinaryTreeNode.vue';
-  import type { TreeNode } from './types/TreeNode'; 
-  import type { Player } from './types/Player'; 
-  import type { Barrage } from './types/Barrage'; 
-  import PlayerCard from './components/PlayerCard.vue';
+  import BinaryTreeNode from '../components/BinaryTreeNode.vue';
+  import type { TreeNode } from '../types/TreeNode'; 
+  import type { Player } from '../types/Player'; 
+  import type { Barrage } from '../types/Barrage'; 
+  import PlayerCard from '../components/PlayerCard.vue';
   
   export default defineComponent({
-    name: 'App',
+    name: 'KnockoutDraw',
     components: {
       BinaryTreeNode, 
       PlayerCard

@@ -28,7 +28,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import type { PropType } from 'vue';
-import type { TreeNode } from './types/TreeNode'; // 使用 type 导入
+import type { TreeNode } from '../types/TreeNode'; // 使用 type 导入
 
 const undeterminedPlayerUrl = ref<string>('avatars/undetermined.png');
 
@@ -43,23 +43,43 @@ export default defineComponent({
   setup(props) {
     const isEditing = ref<boolean>(false);
 
-    const lineWidth = 200;  // Adjust based on your layout
+    const lineWidth = 1080;  // Adjust based on your layout
     const lineHeight = 40;  // Adjust based on your layout
 
     const linePath = computed(() => {
       if (!props.node) return ''; // Return empty path if node is null
 
-      const nodeWidth = 100; // Width of the node box
+      const nodeWidth = 200; // Width of the node box
       const nodeHeight = 40; // Height of the node box
       let path = `M ${lineWidth / 2} 0`; // Start from the top center of the parent node
 
+      // if (props.node.left || props.node.right) {
+      //   path += ` L ${lineWidth / 2} ${lineHeight / 4}`; // Down to the middle
+      //   if (props.node.left) {
+      //     path += ` L ${lineWidth / 4} ${lineHeight / 4}`;
+      //     path += ` L ${lineWidth / 4} ${lineHeight / 2}`; // Connect to the middle of left child
+      //   }
+      //   if (props.node.right) {
+      //     path += `M ${lineWidth / 2} ${lineHeight / 4}`;
+      //     path += ` L ${3 * lineWidth / 4} ${lineHeight / 4}`;
+      //     path += ` L ${3 * lineWidth / 4} ${lineHeight / 2}`; // Connect to the middle of right child
+      //   }
+      // }
+
+
+      // 1/2 2/2 4/2
       if (props.node.left || props.node.right) {
-        path += ` L ${lineWidth / 2} ${lineHeight / 2}`; // Down to the middle
+        path += ` L ${lineWidth / 2} ${lineHeight / 4}`; // Down to the middle
         if (props.node.left) {
-          path += ` L ${lineWidth / 4} ${lineHeight / 2}`; // Connect to the middle of left child
+          // Connect to the middle of left child
+          path += ` L ${lineWidth / 2 - (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight / 4}`;
+          path += ` L ${lineWidth / 2 - (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight / 2}`;
         }
         if (props.node.right) {
-          path += ` L ${3 * lineWidth / 4} ${lineHeight / 2}`; // Connect to the middle of right child
+          // Connect to the middle of right child
+          path += `M ${lineWidth / 2} ${lineHeight / 4}`;
+          path += ` L ${lineWidth / 2 + (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight / 4}`;
+          path += ` L ${lineWidth / 2 + (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight / 2}`;
         }
       }
 
