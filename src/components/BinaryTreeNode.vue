@@ -49,7 +49,7 @@ export default defineComponent({
     const linePath = computed(() => {
       if (!props.node) return ''; // Return empty path if node is null
 
-      const nodeWidth = 200; // Width of the node box
+      const nodeWidth = 150; // Width of the node box
       const nodeHeight = 40; // Height of the node box
       let path = `M ${lineWidth / 2} 0`; // Start from the top center of the parent node
 
