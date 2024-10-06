@@ -1,6 +1,6 @@
 <template>
-  <div class="app">
-    <img :src="backgroundImageUrl">
+  <div class="general_container">
+    <!-- <img :src="backgroundImageUrl"> -->
     <div class="absolute_temp_container">
       <!-- 弹幕容器 -->
       <div class="barrage-container">
@@ -30,9 +30,11 @@
             @change="updateTree"
           />
         </div>
-        <BinaryTreeNode :node="rootNode" />
+        <div class="competitionTree">
+          <BinaryTreeNode :node="rootNode" />
+        </div>
         <!-- 添加按钮，点击时调用 GeneralDraw 函数 -->
-        <button @click="handleGeneralDraw">一键抽签</button>
+         <button @click="handleGeneralDraw">一键抽签</button>
         <h2>比赛选手展示</h2>
         <AddPlayerModal
           :show="showModal"
@@ -54,11 +56,11 @@
           />
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
+<!-- TODO 双击晋级 -->
 <script lang="ts">
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import BinaryTreeNode from '../components/BinaryTreeNode.vue';
@@ -327,7 +329,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.app {
+.general_container {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -336,6 +338,17 @@ export default defineComponent({
   width: 100%;
   box-shadow: 'light';
   align-items: center;
+  justify-content: center;
+}
+
+.absolute_temp_container{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* margin-top: 180px;
+  height: 90%; */
+  align-items: center;
+  z-index: 1; 
 }
 
 .controls {
@@ -364,20 +377,12 @@ h2 {
   position: relative;
   flex-direction: column;
   margin-top: 10px;
-  justify-content: center; /* Center items horizontally */
   align-items: center;
   z-index: 1; /* 保证其他元素能在弹幕后方显示 */
 }
 
-.absolute_temp_container{
+.competitionTree{
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  position: absolute;
-  margin-top: 180px;
-  height: 90%;
-  align-items: center;
-  z-index: 1; /* 保证其他元素能在弹幕后方显示 */
 }
 
 .players-grid {
@@ -385,6 +390,7 @@ h2 {
   gap: 20px;
   width: 80%;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
 }
 

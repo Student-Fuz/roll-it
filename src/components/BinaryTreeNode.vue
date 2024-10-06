@@ -15,10 +15,10 @@
       </svg>
     </div>
     <div class="children">
-      <div v-if="node?.left" class="child">
+      <div v-if="node?.left" class="child" :style="{ marginTop: lineHeight + 'px' }">
         <BinaryTreeNode :node="node.left" />
       </div>
-      <div v-if="node?.right" class="child">
+      <div v-if="node?.right" class="child" :style="{ marginTop: lineHeight + 'px' }">
         <BinaryTreeNode :node="node.right" />
       </div>
     </div>
@@ -46,27 +46,33 @@ export default defineComponent({
     const nodeWidth = 60; // 通过这个值控制 box 的宽度
     const nodeHeight = 90; // Height of the node box
 
-    const lineWidth = 1080;  // Adjust based on your layout
     const lineHeight = 40;  // Adjust based on your layout
+
+    const lineWidth = computed(() => {
+      if (!props.node) return 0; // Return empty path if node is null
+      let width = 0;
+      width = 2**(props.node.heightReverse)*(nodeWidth+20);
+      return width;
+    });
 
     const linePath = computed(() => {
       if (!props.node) return ''; // Return empty path if node is null
 
 
-      let path = `M ${lineWidth / 2} 0`; // Start from the top center of the parent node
+      let path = `M ${lineWidth.value / 2} 0`; // Start from the top center of the parent node
 
       if (props.node.left || props.node.right) {
-        path += ` L ${lineWidth / 2} ${lineHeight / 4}`; // Down to the middle
+        path += ` L ${lineWidth.value / 2} ${lineHeight / 2}`; // Down to the middle
         if (props.node.left) {
           // Connect to the middle of left child
-          path += ` L ${lineWidth / 2 - (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight / 4}`;
-          path += ` L ${lineWidth / 2 - (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight / 2}`;
+          path += ` L ${lineWidth.value / 2 - (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight / 2}`;
+          path += ` L ${lineWidth.value / 2 - (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight}`;
         }
         if (props.node.right) {
           // Connect to the middle of right child
-          path += `M ${lineWidth / 2} ${lineHeight / 4}`;
-          path += ` L ${lineWidth / 2 + (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight / 4}`;
-          path += ` L ${lineWidth / 2 + (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight / 2}`;
+          path += `M ${lineWidth.value / 2} ${lineHeight / 2}`;
+          path += ` L ${lineWidth.value / 2 + (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight / 2}`;
+          path += ` L ${lineWidth.value / 2 + (2**(props.node.heightReverse-1))*(nodeWidth/2 + 20)} ${lineHeight}`;
         }
       }
 
@@ -109,7 +115,7 @@ export default defineComponent({
 
 <style scoped>
 .node {
-  display: block;
+  display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
@@ -152,14 +158,14 @@ input:focus {
 .line {
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  /* left: 50%;
+  transform: translateX(-50%); */
 }
 
 .children {
   display: flex;
   gap: 20px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 .child {
