@@ -49,11 +49,14 @@ nav ul {
   list-style: none;
   padding: 0;
   margin: 50px 0;
+  display: flex;
+  flex-direction: column; /* 使列表项竖直排列 */
+  align-items: center; /* 水平居中 */
 }
 
 nav li {
-  display: inline-block;
-  margin: 0 20px;
+  display: block;
+  margin: 20px 20px;
 }
 
 nav a {

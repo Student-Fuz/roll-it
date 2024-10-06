@@ -332,10 +332,8 @@ export default defineComponent({
   flex-direction: column;
   position: relative;
   background-color: rgb(255, 255, 255);
-  height: 90%;
-  width: 90%;
-  left: 5%;
-  top: 5%;
+  height: 100%;
+  width: 100%;
   box-shadow: 'light';
   align-items: center;
 }
@@ -372,7 +370,7 @@ h2 {
 }
 
 .absolute_temp_container{
-  display: block;
+  display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   position: absolute;

@@ -1,7 +1,7 @@
- <template>
+<template>
   <div class="node">
     <div class="node-content" v-if="node">
-      <div class="box" @click="handleLeftClick" @contextmenu="handleRightClick">
+      <div class="box" @click="handleLeftClick" @contextmenu="handleRightClick" :style="{ width: `${nodeWidth}px`, height: `${nodeHeight}px` }">
         <img :src="node.avatarUrl" alt="Avatar" class="avatar">
         <span class="nickname">{{ node.nickname }}</span>
       </div>
@@ -43,31 +43,18 @@ export default defineComponent({
   setup(props) {
     const isEditing = ref<boolean>(false);
 
+    const nodeWidth = 60; // 通过这个值控制 box 的宽度
+    const nodeHeight = 90; // Height of the node box
+
     const lineWidth = 1080;  // Adjust based on your layout
     const lineHeight = 40;  // Adjust based on your layout
 
     const linePath = computed(() => {
       if (!props.node) return ''; // Return empty path if node is null
 
-      const nodeWidth = 150; // Width of the node box
-      const nodeHeight = 40; // Height of the node box
+
       let path = `M ${lineWidth / 2} 0`; // Start from the top center of the parent node
 
-      // if (props.node.left || props.node.right) {
-      //   path += ` L ${lineWidth / 2} ${lineHeight / 4}`; // Down to the middle
-      //   if (props.node.left) {
-      //     path += ` L ${lineWidth / 4} ${lineHeight / 4}`;
-      //     path += ` L ${lineWidth / 4} ${lineHeight / 2}`; // Connect to the middle of left child
-      //   }
-      //   if (props.node.right) {
-      //     path += `M ${lineWidth / 2} ${lineHeight / 4}`;
-      //     path += ` L ${3 * lineWidth / 4} ${lineHeight / 4}`;
-      //     path += ` L ${3 * lineWidth / 4} ${lineHeight / 2}`; // Connect to the middle of right child
-      //   }
-      // }
-
-
-      // 1/2 2/2 4/2
       if (props.node.left || props.node.right) {
         path += ` L ${lineWidth / 2} ${lineHeight / 4}`; // Down to the middle
         if (props.node.left) {
@@ -88,18 +75,14 @@ export default defineComponent({
 
     // Define the event handler functions
     const handleLeftClick = (event: MouseEvent) => {
-      // Check if the left mouse button was clicked
-      if (event.button === 0) {
+      if (event.button === 0 && props.node && props.node.father) {
         // 晋级操作
-        if (props.node && props.node.father) {
-          props.node.father.avatarUrl = props.node.avatarUrl;
-          props.node.father.nickname = props.node.nickname;
-        }
+        props.node.father.avatarUrl = props.node.avatarUrl;
+        props.node.father.nickname = props.node.nickname;
       }
     };
 
     const handleRightClick = (event: MouseEvent) => {
-      // Check if the right mouse button was clicked
       if (event.button === 2) {
         event.preventDefault(); // Prevent the default context menu from showing
         // 取消
@@ -112,6 +95,8 @@ export default defineComponent({
 
     return {
       isEditing,
+      nodeWidth,
+      nodeHeight,
       linePath,
       lineWidth,
       lineHeight,
@@ -137,24 +122,15 @@ export default defineComponent({
   position: relative;
 }
 
-/* .box {
-  border: 2px solid black;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-} */
-
 .box {
-display: flex;
-align-items: center; /* Vertically center items */
-border: 1px solid #ddd;
-border-radius: 8px;
-padding: 16px;
-text-align: center;
-width: 150px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Vertically center items */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 input {
