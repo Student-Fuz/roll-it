@@ -1,5 +1,5 @@
 <template>
-  <div class="general_container">
+  <div class="general_container" :style="{ backgroundImage: `url(${backgroundImageUrl})` }">
     <!-- <img :src="backgroundImageUrl"> -->
     <div class="absolute_temp_container">
       <!-- 弹幕容器 -->
@@ -51,7 +51,7 @@
             :onDraw="() => handleIndividualDraw(player)"
           />
           <AddingPlayerCard
-            :avatarUrl="balnkPlayerUrl"
+            :avatarUrl="blankPlayerUrl"
             @onAdd="showModal = true"
           />
         </div>
@@ -80,13 +80,13 @@ export default defineComponent({
     AddPlayerModal
   },
   setup() {
-    const backgroundImageUrl = ref<string>('background.png');
+    const backgroundImageUrl = ref<string>('background_0.png');
     const playersListUrl = ref<string>('players.json');
     const barragesListUrl = ref<string>('barrages.json');
     const defaultPlayerUrl = ref<string>('avatars/default.png');
-    const balnkPlayerUrl = ref<string>('avatars/blank.png');
+    const blankPlayerUrl = ref<string>('avatars/blank.png');
     const undeterminedPlayerUrl = ref<string>('avatars/undetermined.png');
-    const defaultHeight = 3;
+    const defaultHeight = 2;
     const treeHeight = ref<number>(defaultHeight);
     const rootNode = ref<TreeNode | null>(generateBinaryTree(treeHeight.value, 0, null));
     const players = ref<Player[]>([]);  
@@ -311,7 +311,7 @@ export default defineComponent({
       loading,
       barrages,
       defaultPlayerUrl,
-      balnkPlayerUrl,
+      blankPlayerUrl,
       showModal,
       updateTree,
       handleGeneralDraw,
@@ -332,6 +332,8 @@ export default defineComponent({
 .general_container {
   display: flex;
   flex-direction: column;
+  background-size: fixed; /* 使背景图充满容器 */
+  background-position:center; /* 让背景图片居中 */
   position: relative;
   background-color: rgb(255, 255, 255);
   height: 100%;
@@ -345,8 +347,8 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   position: relative;
-  /* margin-top: 180px;
-  height: 90%; */
+  margin-top: 180px;
+  height: 90%;
   align-items: center;
   z-index: 1; 
 }
