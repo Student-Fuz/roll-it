@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'; // 使用 hash 模式
+import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../views/HomePage.vue';
 import KnockoutDraw from '../views/KnockoutDraw.vue';
 import NvsNDraw from '../views/NvsNDraw.vue';
