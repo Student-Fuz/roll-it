@@ -28,7 +28,7 @@ props: {
     },
     onDraw: {
       type: Function as PropType<() => void>, // 明确定义为无返回值的函数类型
-      required: true
+      required: false
     }   
 }
 

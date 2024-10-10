@@ -1,19 +1,20 @@
 <template>
   <div class="container">
     <header>
-      <h1>比赛抽签系统</h1>
-      <p>请选择比赛类型进入相应的页面</p>
+      <h1>抽签系统</h1>
+      <p>Roll it ! ! !</p>
     </header>
 
     <nav>
       <ul>
         <li><router-link to="/TournamentDraw/knockout">淘汰赛抽签</router-link></li>
-        <li><router-link to="/TournamentDraw/nvsn">NvsN 比赛抽签</router-link></li>
+        <li><router-link to="/TournamentDraw/nvsn">N vs N 比赛抽签</router-link></li>
+        <li><router-link to="/TournamentDraw/launch">晚饭吃什么抽签</router-link></li>
       </ul>
     </nav>
 
     <footer>
-      <p>&copy; 2024 比赛抽签系统</p>
+      <p>&copy; 抽签系统</p>
     </footer>
   </div>
 </template>

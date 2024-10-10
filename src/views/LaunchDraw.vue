@@ -3,7 +3,7 @@
     <div class="absolute_temp_container">
       <!-- **********************定义组件开始*********************** -->
       <div class="inner_items">
-        <h1>团队抽签</h1>
+        <h1>中午吃什么抽签</h1>
         <!-- 添加按钮，点击时调用 GeneralDraw 函数 -->
         <button>一键抽签</button>
         <h2>比赛选手展示</h2>
@@ -19,7 +19,6 @@
             :nickname="player.nickname"
             :avatarUrl="player.avatarUrl"
             :slogan="player.slogan"
-            :onDraw="() => handleIndividualDraw(player)"
           />
           <AddingPlayerCard
             :avatarUrl="blankPlayerUrl"
@@ -40,7 +39,7 @@ import AddingPlayerCard from '../components/AddingPlayerCard.vue';
 import AddPlayerModal from '../components/AddPlayerModal.vue';
 
 export default defineComponent({
-  name: 'KnockoutDraw',
+  name: 'LaunchDraw',
   components: {
     PlayerCard,
     AddingPlayerCard,
@@ -48,7 +47,7 @@ export default defineComponent({
   },
   setup() {
     const backgroundImageUrl = ref<string>('background_0.png');
-    const playersListUrl = ref<string>('players.json');
+    const playersListUrl = ref<string>('menu.json');
     const defaultPlayerUrl = ref<string>('avatars/default.png');
     const blankPlayerUrl = ref<string>('avatars/blank.png');
     const players = ref<Player[]>([]);  

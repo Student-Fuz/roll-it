@@ -1,7 +1,12 @@
 <template>
   <div class="node">
     <div class="node-content" v-if="node">
-      <div class="box" @click="handleLeftClick" @contextmenu="handleRightClick" :style="{ width: `${nodeWidth}px`, height: `${nodeHeight}px` }">
+      <div class="box"  @click="handleLeftClick" 
+                        @contextmenu="handleRightClick"  
+                        @mousedown="startPress"
+                        @mouseup="endPress"
+                        @mouseleave="endPress" 
+                        :style="{ width: `${nodeWidth}px`, height: `${nodeHeight}px` }">
         <img :src="node.avatarUrl" alt="Avatar" class="avatar">
         <span class="nickname">{{ node.nickname }}</span>
       </div>
@@ -48,6 +53,9 @@ export default defineComponent({
 
     const lineHeight = 40;  // Adjust based on your layout
 
+    const longPressTimeout = ref<number | null>(null);
+    const isLongPressing = ref(false);
+
     const lineWidth = computed(() => {
       if (!props.node) return 0; // Return empty path if node is null
       let width = 0;
@@ -79,6 +87,34 @@ export default defineComponent({
       return path;
     });
 
+    // 开始长按
+    const startPress = () => {
+      longPressTimeout.value = setTimeout(() => {
+        isLongPressing.value = true;
+        handleLongPress();
+      }, 500); // 500ms后触发长按事件
+    };
+
+    // 结束长按
+    const endPress = () => {
+      if (longPressTimeout.value !== null) {
+        clearTimeout(longPressTimeout.value);
+        longPressTimeout.value = null; // 重置为 null
+      }
+      if (isLongPressing.value) {
+        isLongPressing.value = false; // 重置状态
+      }
+    };
+
+    // 处理长按事件的函数
+    const handleLongPress = () => {
+      // 取消
+      if (props.node) {
+        props.node.avatarUrl = undeterminedPlayerUrl.value;
+        props.node.nickname = "待定";
+      }
+    };
+
     // Define the event handler functions
     const handleLeftClick = (event: MouseEvent) => {
       if (event.button === 0 && props.node && props.node.father) {
@@ -107,7 +143,9 @@ export default defineComponent({
       lineWidth,
       lineHeight,
       handleLeftClick,
-      handleRightClick
+      handleRightClick,
+      startPress,
+      endPress
     };
   }
 });

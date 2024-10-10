@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "nickname": "紫金二楼",
+        "avatarUrl": "dishes/土豆泥.png",
+        "slogan": "我爱吃点土豆泥牛肉拌粉 ~ ~"
+    },
+    {
+      "id": 2,
+        "nickname": "紫荆三楼",
+        "avatarUrl": "dishes/土豆泥.png",
+        "slogan": "我爱坐在空调边 ~"
+    },
+    {
+      "id": 3,
+        "nickname": "朝阳二楼",
+        "avatarUrl": "dishes/土豆泥.png",
+        "slogan": "唐完了就宋"
+    },
+    {
+      "id": 4,
+        "nickname": "朝阳三楼",
+        "avatarUrl": "dishes/土豆泥.png",
+        "slogan": "唐完了就宋"
+    }
+]
+    
