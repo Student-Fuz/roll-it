@@ -7,9 +7,9 @@
 
     <nav>
       <ul>
-        <li><router-link to="/TournamentDraw/knockout">淘汰赛抽签</router-link></li>
-        <li><router-link to="/TournamentDraw/nvsn">N vs N 比赛抽签</router-link></li>
-        <li><router-link to="/TournamentDraw/launch">晚饭吃什么抽签</router-link></li>
+        <li><router-link to="/roll-it/knockout">淘汰赛抽签</router-link></li>
+        <li><router-link to="/roll-it/nvsn">N vs N 比赛抽签</router-link></li>
+        <li><router-link to="/roll-it/launch">晚饭吃什么抽签</router-link></li>
       </ul>
     </nav>
 
