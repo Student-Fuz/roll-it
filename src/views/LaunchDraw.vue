@@ -31,6 +31,7 @@
           :nickname="player.nickname"
           :avatarUrl="player.avatarUrl"
           :slogan="player.slogan"
+          @remove="deleteDish(player.id)"
         />
         <AddingDishCard
           :avatarUrl="blankPlayerUrl"
@@ -90,6 +91,12 @@ export default defineComponent({
       showModal.value = false;
     };
 
+    // 删除菜
+    const deleteDish = (dishId: number) => {
+      console.log("hello")
+      players.value = players.value.filter(player => player.id !== dishId);
+    };
+
     // 开始抽签过程
     const startDraw = () => {
       if (players.value.length === 0 || drawing.value) return; // 防止重复抽签
@@ -121,7 +128,8 @@ export default defineComponent({
       selectedPlayer,
       showModal,
       handleAddingPlayer,
-      startDraw
+      startDraw,
+      deleteDish
     };
   }
 });

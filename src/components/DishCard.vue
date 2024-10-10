@@ -1,5 +1,5 @@
 <template>
-    <div class="player-card">
+    <div class="dish-card" @dblclick="$emit('remove')">
       <img :src="avatarUrl" alt="avatar" class="player-avatar" />
       <h3 class="player-nickname">{{ nickname }}</h3>
       <p class="player-slogan">{{ slogan }}</p>
@@ -33,7 +33,7 @@ props: {
 </script>
 
 <style scoped>
-.player-card {
+.dish-card {
 border: 1px solid #ddd;
 border-radius: 8px;
 padding: 16px;
