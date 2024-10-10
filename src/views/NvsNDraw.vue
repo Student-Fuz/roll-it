@@ -19,7 +19,6 @@
             :nickname="player.nickname"
             :avatarUrl="player.avatarUrl"
             :slogan="player.slogan"
-            :onDraw="() => handleIndividualDraw(player)"
           />
           <AddingPlayerCard
             :avatarUrl="blankPlayerUrl"
