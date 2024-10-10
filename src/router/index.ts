@@ -6,22 +6,22 @@ import LaunchDraw from '../views/LaunchDraw.vue';
 
 const routes = [
   {
-    path: '/TournamentDraw',
+    path: '/roll-it',
     name: 'HomePage',
     component: HomePage
   },
   {
-    path: '/TournamentDraw/knockout',
+    path: '/roll-it/knockout',
     name: 'KnockoutDraw',
     component: KnockoutDraw
   },
   {
-    path: '/TournamentDraw/nvsn',
+    path: '/roll-it/nvsn',
     name: 'NvsNDraw',
     component: NvsNDraw
   },
   {
-    path: '/TournamentDraw/launch',
+    path: '/roll-it/launch',
     name: 'LaunchDraw',
     component: LaunchDraw
   }
