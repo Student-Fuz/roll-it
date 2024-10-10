@@ -6,4 +6,4 @@
  - 团队赛抽签
  - 中午吃什么抽签
 
-[点击跳转](https://student-fuz.github.io/TournamentDraw/)
+[点击跳转](https://student-fuz.github.io/roll-it/)
