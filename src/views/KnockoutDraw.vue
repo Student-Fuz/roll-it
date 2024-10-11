@@ -85,7 +85,7 @@ export default defineComponent({
     const defaultPlayerUrl = ref<string>('avatars/default.png');
     const blankPlayerUrl = ref<string>('avatars/blank.png');
     const undeterminedPlayerUrl = ref<string>('avatars/undetermined.png');
-    const defaultHeight = 3;
+    const defaultHeight = 2;
     const treeHeight = ref<number>(defaultHeight);
     const rootNode = ref<TreeNode | null>(generateBinaryTree(treeHeight.value, 0, null));
     const players = ref<Player[]>([]);  

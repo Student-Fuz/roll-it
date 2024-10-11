@@ -4,6 +4,9 @@
       <!-- **********************定义组件开始*********************** -->
       <div class="inner_items">
         <h1>团队抽签</h1>
+
+        <!-- 在此放置对决两队 -->
+
         <!-- 添加按钮，点击时调用 GeneralDraw 函数 -->
         <button>一键抽签</button>
         <h2>比赛选手展示</h2>
@@ -39,7 +42,7 @@ import AddingPlayerCard from '../components/AddingPlayerCard.vue';
 import AddPlayerModal from '../components/AddPlayerModal.vue';
 
 export default defineComponent({
-  name: 'KnockoutDraw',
+  name: 'teamDraw',
   components: {
     PlayerCard,
     AddingPlayerCard,

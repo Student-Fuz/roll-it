@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../views/HomePage.vue';
 import KnockoutDraw from '../views/KnockoutDraw.vue';
-import NvsNDraw from '../views/NvsNDraw.vue';
+import teamDraw from '../views/TeamDraw.vue';
 import LaunchDraw from '../views/LaunchDraw.vue';
 
 const routes = [
@@ -17,8 +17,8 @@ const routes = [
   },
   {
     path: '/roll-it/nvsn',
-    name: 'NvsNDraw',
-    component: NvsNDraw
+    name: 'teamDraw',
+    component: teamDraw
   },
   {
     path: '/roll-it/launch',

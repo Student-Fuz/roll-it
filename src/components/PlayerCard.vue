@@ -1,5 +1,5 @@
 <template>
-    <div class="player-card">
+    <div class="player-card" @dblclick="$emit('playerRemove')">
       <img :src="avatarUrl" alt="avatar" class="player-avatar" />
       <h3 class="player-nickname">{{ nickname }}</h3>
       <p class="player-slogan">{{ slogan }}</p>
@@ -31,8 +31,6 @@ props: {
       required: false
     }   
 }
-
-
 
 });
 </script>
