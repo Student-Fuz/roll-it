@@ -17,11 +17,16 @@
       <button @click="startDraw">一键抽签</button>
 
       <h2>成电菜单大全</h2>
+      
       <AddPlayerModal
         :show="showModal"
         @close="showModal = false"
         @add-player="handleAddingPlayer"
       />
+
+      <div class="gray-note">
+        注：双击删除选项
+      </div>
 
       <!-- 展示所有选手的 DishCard -->
       <div class="players-grid">
@@ -181,5 +186,11 @@ button:hover {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.gray-note {
+  color: gray; /* 灰色字体 */
+  font-size: 12px; /* 较小字体 */
+  margin-bottom: 10px; /* 下方留出空间 */
 }
 </style>

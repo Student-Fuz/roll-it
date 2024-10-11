@@ -43,8 +43,8 @@ border: 1px solid #ddd;
 border-radius: 8px;
 padding: 16px;
 text-align: center;
-width: 200px;
-height: 240px;
+width: 160px;
+height: 200px;
 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
