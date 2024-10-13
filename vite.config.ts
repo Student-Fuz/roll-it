@@ -15,7 +15,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: '/TournamentDraw/',
+  base: '/roll-it/',
   build: {
     outDir :"docs"
   }

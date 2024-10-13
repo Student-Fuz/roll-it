@@ -1,9 +1,8 @@
 <template>
-    <div class="player-card" @dblclick="$emit('playerRemove')">
+    <div class="dish-card" @dblclick="$emit('remove')">
       <img :src="avatarUrl" alt="avatar" class="player-avatar" />
       <h3 class="player-nickname">{{ nickname }}</h3>
       <p class="player-slogan">{{ slogan }}</p>
-      <button @click="onDraw">抽签</button>
     </div>
 </template>
   
@@ -12,7 +11,7 @@ import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
 
 export default defineComponent({
-name: 'PlayerCard',
+name: 'DishCard',
 props: {
     avatarUrl: {
     type: String as PropType<string>,
@@ -25,18 +24,16 @@ props: {
     slogan: {
     type: String as PropType<string>,
     required: true
-    },
-    onDraw: {
-      type: Function as PropType<() => void>, // 明确定义为无返回值的函数类型
-      required: false
-    }   
+    },  
 }
+
+
 
 });
 </script>
 
 <style scoped>
-.player-card {
+.dish-card {
 border: 1px solid #ddd;
 border-radius: 8px;
 padding: 16px;

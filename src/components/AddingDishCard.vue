@@ -1,36 +1,47 @@
 <template>
-    <div class="player-card" @dblclick="$emit('playerRemove')">
-      <img :src="avatarUrl" alt="avatar" class="player-avatar" />
-      <h3 class="player-nickname">{{ nickname }}</h3>
-      <p class="player-slogan">{{ slogan }}</p>
-      <button @click="onDraw">抽签</button>
-    </div>
+  <div class="player-card">
+    <img :src="avatarUrl" alt="avatar" class="player-avatar" />
+    <h3 class="player-nickname">{{ nickname }}</h3>
+    <p class="player-slogan">{{ slogan }}</p>
+    <button @click="onAdd">添加</button>
+  </div>
 </template>
-  
+
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
 
 export default defineComponent({
-name: 'PlayerCard',
-props: {
+  name: 'AddingDishCard',
+  emits: ['onAdd'],
+  props: {
     avatarUrl: {
-    type: String as PropType<string>,
-    required: true
+      type: String as PropType<string>,
+      required: false
     },
     nickname: {
-    type: String as PropType<string>,
-    required: true
+      type: String as PropType<string>,
+      required: false
     },
     slogan: {
-    type: String as PropType<string>,
-    required: true
+      type: String as PropType<string>,
+      required: false
     },
-    onDraw: {
+    onAdd: {
       type: Function as PropType<() => void>, // 明确定义为无返回值的函数类型
       required: false
-    }   
-}
+    }
+  },
+
+  setup(props, { emit }){
+    const onAdd = () => {
+        emit('onAdd');
+      };
+
+      return {
+        onAdd
+      };
+  }
 
 });
 </script>
@@ -65,4 +76,3 @@ margin-top: 8px;
 color: #666;
 }
 </style>
-  

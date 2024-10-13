@@ -59,7 +59,6 @@
   </div>
 </template>
 
-<!-- TODO 双击晋级 -->
 <script lang="ts">
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import BinaryTreeNode from '../components/BinaryTreeNode.vue';

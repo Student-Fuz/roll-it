@@ -1,5 +1,9 @@
-# TournamentDraw
+# Roll-it
 
-## 比赛抽签系统
+## 抽签系统
 
-[点击跳转](https://student-fuz.github.io/TournamentDraw/)
+ - 淘汰赛抽签
+ - 团队赛抽签
+ - 中午吃什么抽签
+
+[点击跳转](https://student-fuz.github.io/roll-it/)
