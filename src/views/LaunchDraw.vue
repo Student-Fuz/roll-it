@@ -18,10 +18,10 @@
 
       <h2>成电菜单大全</h2>
       
-      <AddPlayerModal
+      <AddDishModal
         :show="showModal"
         @close="showModal = false"
-        @add-player="handleAddingPlayer"
+        @add-dish="handleAddingPlayer"
       />
 
       <div class="gray-note">
@@ -52,14 +52,14 @@ import { defineComponent, ref, watch, onMounted } from 'vue';
 import type { Player } from '../types/Player';
 import DishCard from '../components/DishCard.vue';
 import AddingDishCard from '../components/AddingDishCard.vue';
-import AddPlayerModal from '../components/AddPlayerModal.vue';
+import AddDishModal from '../components/AddDishModal.vue';
 
 export default defineComponent({
   name: 'LaunchDraw',
   components: {
     DishCard,
     AddingDishCard,
-    AddPlayerModal
+    AddDishModal
   },
   setup() {
     const backgroundImageUrl = ref<string>('background_0.png');

@@ -85,7 +85,7 @@ export default defineComponent({
     const defaultPlayerUrl = ref<string>('avatars/default.png');
     const blankPlayerUrl = ref<string>('avatars/blank.png');
     const undeterminedPlayerUrl = ref<string>('avatars/undetermined.png');
-    const defaultHeight = 2;
+    const defaultHeight = 3;
     const treeHeight = ref<number>(defaultHeight);
     const rootNode = ref<TreeNode | null>(generateBinaryTree(treeHeight.value, 0, null));
     const players = ref<Player[]>([]);  
@@ -361,17 +361,6 @@ input {
   text-align: center;
 }
 
-h1 {
-  margin-bottom: 20px;
-  z-index: 1; 
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  z-index: 1; 
-}
-
 .inner_items{
   display: flex;
   flex-wrap: nowrap;
@@ -381,6 +370,18 @@ h2 {
   align-items: center;
   z-index: 1; /* 保证其他元素能在弹幕后方显示 */
 }
+
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #f6f7f6;
+  color: rgb(12, 12, 12);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 
 .competitionTree{
   display: flex;
