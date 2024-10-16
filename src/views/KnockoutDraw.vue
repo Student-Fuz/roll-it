@@ -1,6 +1,5 @@
 <template>
   <div class="general_container" :style="{ backgroundImage: `url(${backgroundImageUrl})` }">
-    <!-- <img :src="backgroundImageUrl"> -->
     <div class="absolute_temp_container">
       <!-- 弹幕容器 -->
       <div class="barrage-container">
