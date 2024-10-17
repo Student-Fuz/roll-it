@@ -384,7 +384,6 @@ input {
   z-index: 1; /* 保证其他元素能在弹幕后方显示 */
 }
 
-
 button {
   margin-top: 20px;
   padding: 10px 20px;
@@ -395,9 +394,12 @@ button {
   cursor: pointer;
 }
 
-
-.competitionTree{
-  display: flex;
+.competitionTree {
+  overflow: auto;     /* 当内容超出时出现滚动条 */
+  /* max-height: 400px;   */
+  max-width: 400px;
+  border: 1px solid #ccc;
+  padding: 10px;
 }
 
 .gray-note {

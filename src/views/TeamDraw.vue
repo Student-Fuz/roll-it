@@ -224,6 +224,16 @@ h2 {
   z-index: 1; 
 }
 
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #f6f7f6;
+  color: rgb(12, 12, 12);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .teams-container {
   display: flex;
   justify-content: space-around;
@@ -235,10 +245,6 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.competitionTree{
-  display: flex;
 }
 
 .gray-note {
