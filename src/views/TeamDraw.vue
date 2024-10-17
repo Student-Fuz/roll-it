@@ -5,10 +5,35 @@
       <div class="inner_items">
         <h1>团队抽签</h1>
 
-        <!-- 在此放置对决两队 -->
+        <!-- 抽出双方展示区域 -->
+        <div class="teams-container">
+          <!-- 左队 -->
+          <div class="team team-left">
+            <h2>队伍 A</h2>
+            <PlayerCard
+              v-for="player in teamA"
+              :key="player.id"
+              :nickname="player.nickname"
+              :avatarUrl="player.avatarUrl"
+              :slogan="player.slogan"
+            />
+          </div>
+
+          <!-- 右队 -->
+          <div class="team team-right">
+            <h2>队伍 B</h2>
+            <PlayerCard
+              v-for="player in teamB"
+              :key="player.id"
+              :nickname="player.nickname"
+              :avatarUrl="player.avatarUrl"
+              :slogan="player.slogan"
+            />
+          </div>
+        </div>
 
         <!-- 添加按钮，点击时调用 GeneralDraw 函数 -->
-        <button>一键抽签</button>
+        <button @click="drawTeams">一键抽签</button>
         <h2>比赛选手展示</h2>
         <AddPlayerModal
           :show="showModal"
@@ -58,6 +83,8 @@ export default defineComponent({
     const loading = ref(true);
 
     const showModal = ref(false);
+    const teamA = ref<any[]>([]);
+    const teamB = ref<any[]>([]);
 
     // 读取选手信息
     const fetchPlayers = async () => {
@@ -78,6 +105,14 @@ export default defineComponent({
     onMounted(() => {
       fetchPlayers();  
     });
+
+    // 随机抽签函数，将玩家分配到两队
+    const drawTeams = () => {
+      const shuffledPlayers = [...players.value].sort(() => Math.random() - 0.5);
+      const half = Math.ceil(shuffledPlayers.length / 2);
+      teamA.value = shuffledPlayers.slice(0, half);
+      teamB.value = shuffledPlayers.slice(half);
+    };
 
     // ******************选手展示部分（开始）*******************
     // 更新 PlayersMap 的函数
@@ -111,7 +146,10 @@ export default defineComponent({
       defaultPlayerUrl,
       blankPlayerUrl,
       showModal, 
-      handleAddingPlayer
+      teamA,
+      teamB,
+      handleAddingPlayer,
+      drawTeams
     };
   }
 });
@@ -143,6 +181,16 @@ export default defineComponent({
   z-index: 1; 
 }
 
+.inner_items{
+  display: flex;
+  flex-wrap: nowrap;
+  position: relative;
+  flex-direction: column;
+  margin-top: 10px;
+  align-items: center;
+  z-index: 1; /* 保证其他元素能在弹幕后方显示 */
+}
+
 .controls {
   margin-bottom: 20px;
 }
@@ -163,14 +211,17 @@ h2 {
   z-index: 1; 
 }
 
-.inner_items{
+.teams-container {
   display: flex;
-  flex-wrap: nowrap;
-  position: relative;
+  justify-content: space-around;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.team {
+  display: flex;
   flex-direction: column;
-  margin-top: 10px;
   align-items: center;
-  z-index: 1; /* 保证其他元素能在弹幕后方显示 */
 }
 
 .competitionTree{
