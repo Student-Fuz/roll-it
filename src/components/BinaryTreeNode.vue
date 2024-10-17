@@ -152,8 +152,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
 .node {
-  display: flex;
+  display:flex;
   flex-direction: column;
   align-items: center;
   position: relative;
@@ -194,21 +195,23 @@ input:focus {
 }
 
 .line {
+  /* position: relative; */
   position: absolute;
   top: 100%;
-  /* left: 50%;
-  transform: translateX(-50%); */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .children {
   display: flex;
   gap: 20px;
-  /* margin-top: 20px; */
+  position: relative;
 }
 
 .child {
   display: flex;
-  flex-direction: column;
+  flex: 1; 
+  flex-direction: row;
   align-items: center;
 }
 

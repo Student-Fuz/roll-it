@@ -29,9 +29,11 @@
             @change="updateTree"
           />
         </div>
-        <div class="competitionTree">
+
+        <div class="treeContainer" ref="treeContainer" :style="{ paddingLeft: dynamicPaddingLeft + 'px' }">
           <BinaryTreeNode :node="rootNode" />
         </div>
+        
         <!-- 添加按钮，点击时调用 GeneralDraw 函数 -->
         <button @click="handleGeneralDraw">一键抽签</button>
 
@@ -101,6 +103,9 @@ export default defineComponent({
 
     const showModal = ref(false);
 
+    const treeContainer = ref<HTMLElement | null>(null);
+    let dynamicPaddingLeft = 300;
+
 
     // 抽签相关
     // 索引数组indexArray 存放0.....index
@@ -139,6 +144,10 @@ export default defineComponent({
 
     // 初始化
     onMounted(() => {
+      if (treeContainer.value) {
+        // 将滚动位置设置为中间
+        treeContainer.value.scrollLeft = treeContainer.value.scrollWidth / 2 - treeContainer.value.clientWidth / 2;
+      }
       fetchPlayers();  
       fetchBarrages();
     });
@@ -247,6 +256,9 @@ export default defineComponent({
       seatArray.value = [];
       seatArray.value = getLeafNodes(rootNode.value);
       indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
+
+      // 设置动态左填充
+      dynamicPaddingLeft = 104*2**treeHeight.value/2 - 200;
     }
 
     watch(treeHeight, updateTree);
@@ -323,6 +335,8 @@ export default defineComponent({
       barrages,
       defaultPlayerUrl,
       blankPlayerUrl,
+      treeContainer,
+      dynamicPaddingLeft,
       showModal,
       updateTree,
       handleGeneralDraw,
@@ -394,12 +408,15 @@ button {
   cursor: pointer;
 }
 
-.competitionTree {
-  overflow: auto;     /* 当内容超出时出现滚动条 */
-  /* max-height: 400px;   */
+.treeContainer {
+  overflow-x: auto;   
+  overflow-y: auto; 
   max-width: 400px;
   border: 1px solid #ccc;
   padding: 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
 }
 
 .gray-note {
