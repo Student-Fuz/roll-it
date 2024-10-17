@@ -40,6 +40,11 @@
           @close="showModal = false"
           @add-player="handleAddingPlayer"
         />
+
+        <div class="gray-note">
+          注：双击删除选项
+        </div>
+
         <div class="players-grid">
           <PlayerCard
             v-for="player in players"
@@ -47,6 +52,7 @@
             :nickname="player.nickname"
             :avatarUrl="player.avatarUrl"
             :slogan="player.slogan"
+            @playerRemove="deletePlayer(player.id)"
           />
           <AddingPlayerCard
             :avatarUrl="blankPlayerUrl"
@@ -114,6 +120,12 @@ export default defineComponent({
       teamB.value = shuffledPlayers.slice(half);
     };
 
+    // 删除选手
+    const deletePlayer = (playerId: number) => {
+      console.log("hello")
+      players.value = players.value.filter(player => player.id !== playerId);
+    };
+
     // ******************选手展示部分（开始）*******************
     // 更新 PlayersMap 的函数
     function updatePlayersMap() {
@@ -149,7 +161,8 @@ export default defineComponent({
       teamA,
       teamB,
       handleAddingPlayer,
-      drawTeams
+      drawTeams,
+      deletePlayer
     };
   }
 });
@@ -226,6 +239,12 @@ h2 {
 
 .competitionTree{
   display: flex;
+}
+
+.gray-note {
+  color: gray; /* 灰色字体 */
+  font-size: 12px; /* 较小字体 */
+  margin-bottom: 10px; /* 下方留出空间 */
 }
 
 .players-grid {

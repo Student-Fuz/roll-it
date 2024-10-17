@@ -33,13 +33,19 @@
           <BinaryTreeNode :node="rootNode" />
         </div>
         <!-- 添加按钮，点击时调用 GeneralDraw 函数 -->
-         <button @click="handleGeneralDraw">一键抽签</button>
+        <button @click="handleGeneralDraw">一键抽签</button>
+
         <h2>比赛选手展示</h2>
         <AddPlayerModal
           :show="showModal"
           @close="showModal = false"
           @add-player="handleAddingPlayer"
         />
+
+        <div class="gray-note">
+          注：双击删除选项
+        </div>
+
         <div class="players-grid">
           <PlayerCard
             v-for="player in players"
@@ -48,6 +54,7 @@
             :avatarUrl="player.avatarUrl"
             :slogan="player.slogan"
             :onDraw="() => handleIndividualDraw(player)"
+            @playerRemove="deletePlayer(player.id)"
           />
           <AddingPlayerCard
             :avatarUrl="blankPlayerUrl"
@@ -391,6 +398,12 @@ button {
 
 .competitionTree{
   display: flex;
+}
+
+.gray-note {
+  color: gray; /* 灰色字体 */
+  font-size: 12px; /* 较小字体 */
+  margin-bottom: 10px; /* 下方留出空间 */
 }
 
 .players-grid {
