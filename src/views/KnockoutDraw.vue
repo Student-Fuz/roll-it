@@ -30,8 +30,11 @@
           />
         </div>
 
-        <div class="treeContainer" ref="treeContainer" :style="{ paddingLeft: dynamicPaddingLeft + 'px' }">
-          <BinaryTreeNode :node="rootNode" />
+        <!-- <div class="treeContainer" ref="treeContainer" :style="{ paddingLeft: dynamicPaddingLeft + 'px' }"> -->
+        <div class="treeContainer" ref="treeContainer">
+          <div class="competitionTree">
+            <BinaryTreeNode :node="rootNode" />
+          </div>
         </div>
         
         <!-- 添加按钮，点击时调用 GeneralDraw 函数 -->
@@ -258,7 +261,7 @@ export default defineComponent({
       indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
 
       // 设置动态左填充
-      dynamicPaddingLeft = 104*2**treeHeight.value/2 - 200;
+      // dynamicPaddingLeft = 104*2**treeHeight.value/2 - 200;
     }
 
     watch(treeHeight, updateTree);
@@ -417,6 +420,10 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: 8px;
+}
+
+.competitionTree {
+  padding-left: 480px;
 }
 
 .gray-note {
