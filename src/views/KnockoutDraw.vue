@@ -269,6 +269,12 @@ export default defineComponent({
       showModal.value = false;
     };
 
+    // 删除选手
+    const deletePlayer = (playerId: number) => {
+      console.log("hello")
+      players.value = players.value.filter(player => player.id !== playerId);
+    };
+
     // ******************选手展示部分（结束）*******************
 
     // ******************弹幕相关（开始）*******************
@@ -319,7 +325,8 @@ export default defineComponent({
       getRandomTop,
       getRandomSpeed,
       getRandomColor, 
-      handleAddingPlayer
+      handleAddingPlayer,
+      deletePlayer
     };
   }
 });
