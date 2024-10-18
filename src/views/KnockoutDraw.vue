@@ -32,7 +32,7 @@
 
         <!-- <div class="treeContainer" ref="treeContainer" :style="{ paddingLeft: dynamicPaddingLeft + 'px' }"> -->
         <div class="treeContainer" ref="treeContainer">
-          <div class="competitionTree">
+          <div class="competitionTree" :style="{ paddingLeft: dynamicPaddingLeft + 'px' }">
             <BinaryTreeNode :node="rootNode" />
           </div>
         </div>
@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, onMounted } from 'vue';
+import { defineComponent, ref, watch, onMounted, reactive } from 'vue';
 import BinaryTreeNode from '../components/BinaryTreeNode.vue';
 import type { TreeNode } from '../types/TreeNode'; 
 import type { Player } from '../types/Player'; 
@@ -107,7 +107,7 @@ export default defineComponent({
     const showModal = ref(false);
 
     const treeContainer = ref<HTMLElement | null>(null);
-    let dynamicPaddingLeft = 300;
+    const dynamicPaddingLeft = ref(300);
 
 
     // 抽签相关
@@ -151,6 +151,7 @@ export default defineComponent({
         // 将滚动位置设置为中间
         treeContainer.value.scrollLeft = treeContainer.value.scrollWidth / 2 - treeContainer.value.clientWidth / 2;
       }
+      dynamicPaddingLeft.value = 114*2**treeHeight.value/2;
       fetchPlayers();  
       fetchBarrages();
     });
@@ -261,7 +262,7 @@ export default defineComponent({
       indexArray = ref(Array.from({ length: 2**treeHeight.value }, (_, index) => index));
 
       // 设置动态左填充
-      // dynamicPaddingLeft = 104*2**treeHeight.value/2 - 200;
+      dynamicPaddingLeft.value = 104*2**treeHeight.value/2 - 200;
     }
 
     watch(treeHeight, updateTree);
@@ -423,7 +424,7 @@ button {
 }
 
 .competitionTree {
-  padding-left: 480px;
+  /* padding-left: 480px; */
 }
 
 .gray-note {
